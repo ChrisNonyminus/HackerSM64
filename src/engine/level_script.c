@@ -31,6 +31,10 @@
 
 #include "config.h"
 
+#if CURSE_LEVELSCRIPT
+#include "cursed/curse.h"
+#endif
+
 #define NUM_PAINTINGS 45
 
 #define CMD_GET(type, offset) (*(type *) (CMD_PROCESS_OFFSET(offset) + (u8 *) sCurrentCmd))

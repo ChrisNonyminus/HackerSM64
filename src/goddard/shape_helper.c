@@ -20,6 +20,7 @@
 #include "shape_helper.h"
 #include "skin.h"
 
+
 // data
 struct ObjGroup *gMarioFaceGrp = NULL;     // @ 801A82E0; returned by load_dynlist
 struct ObjShape *gSpotShape = NULL;        // Shape used for drawing lights?
@@ -501,6 +502,8 @@ void Unknown80198184(struct ObjShape *shape, f32 x, f32 y, f32 z) {
     apply_to_obj_types_in_group(OBJ_TYPE_VERTICES, (applyproc_t) func_8019807C, shape->vtxGroup);
 }
 
+extern u16 random_u16();
+
 /* @ 2469C0 for 0xc8 */
 void scale_obj_position(struct GdObj *obj) {
     struct GdVec3f pos;
@@ -511,6 +514,19 @@ void scale_obj_position(struct GdObj *obj) {
 
     set_cur_dynobj(obj);
     d_get_rel_pos(&pos);
+
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    if (_randpercnt < 10) {
+        pos.x *= 1.1;
+        pos.y *= 1.1;
+        pos.z *= 1.1;
+    } else if (_randpercnt < 20) {
+        pos.x *= 0.9;
+        pos.y *= 0.9;
+        pos.z *= 0.9;
+    }
+#endif
 
     pos.x *= sVertexScaleFactor.x;
     pos.y *= sVertexScaleFactor.y;
@@ -527,6 +543,19 @@ void translate_obj_position(struct GdObj *obj) {
     set_cur_dynobj(obj);
     d_get_rel_pos(&pos);
 
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    if (_randpercnt < 10) {
+        pos.x += 1.0;
+        pos.y += 1.0;
+        pos.z += 1.0;
+    } else if (_randpercnt < 20) {
+        pos.x -= 1.0;
+        pos.y -= 1.0;
+        pos.z -= 1.0;
+    }
+#endif
+
     pos.x += sVertexTranslateOffset.x;
     pos.y += sVertexTranslateOffset.y;
     pos.z += sVertexTranslateOffset.z;
@@ -536,6 +565,17 @@ void translate_obj_position(struct GdObj *obj) {
 
 /* @ 246B1C for 0x88 */
 void scale_verts_in_shape(struct ObjShape *shape, f32 x, f32 y, f32 z) {
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 100) / 100.0) * random_sign();
+    if (_randpercnt < 10) {
+        x += _randfloat;
+        y += _randfloat;
+        z += _randfloat;
+    }
+#endif
+
+
     sVertexScaleFactor.x = x;
     sVertexScaleFactor.y = y;
     sVertexScaleFactor.z = z;
@@ -548,6 +588,15 @@ void scale_verts_in_shape(struct ObjShape *shape, f32 x, f32 y, f32 z) {
 /* @ 246BA4 for 0x70; not called */
 // Guessing on the type of a0
 void translate_verts_in_shape(struct ObjShape *shape, f32 x, f32 y, f32 z) {
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 100) / 100.0) * random_sign();
+    if (_randpercnt < 10) {
+        x += _randfloat;
+        y += _randfloat;
+        z += _randfloat;
+    }
+#endif
     sVertexTranslateOffset.x = x;
     sVertexTranslateOffset.y = y;
     sVertexTranslateOffset.z = z;

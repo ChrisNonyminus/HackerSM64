@@ -9,7 +9,7 @@
 // changes hardcoded modes to use c->defMode.
 //      Note: removes door cutscenes due to the way they're designed to work with specific modes.
 //      Search for FORCED_CAMERA_MODE in camera.c for more information.
-#define FORCED_CAMERA_MODE        CAMERA_MODE_8_DIRECTIONS
+// #define FORCED_CAMERA_MODE        CAMERA_MODE_8_DIRECTIONS
 
 // Changes hardcoded camera mode reverting to instead use the area's default mode (defMode).
 // If you're using a FORCED_CAMERA_MODE, this must be on for it to work.
@@ -31,7 +31,7 @@
 #define PARALLEL_LAKITU_CAM
 
 // Enables Puppy Camera 2, a rewritten camera that can be freely configured and modified.
-// #define PUPPYCAM
+#define PUPPYCAM
 
 // Note: Reonucam is available, but because we had no time to test it properly, it's included as a patch rather than being in the code by default.
 // Run this command to apply the patch if you want to use it:

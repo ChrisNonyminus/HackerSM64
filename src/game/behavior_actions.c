@@ -45,6 +45,9 @@
 #include "spawn_sound.h"
 #include "rumble_init.h"
 #include "puppylights.h"
+#if CURSE_BEHAVIORS
+#include "cursed/curse.h"
+#endif
 
 #include "behaviors/star_door.inc.c"
 #include "behaviors/mr_i.inc.c"
@@ -63,6 +66,7 @@
 #include "behaviors/koopa_shell_underwater.inc.c"
 #include "behaviors/warp.inc.c"
 #include "behaviors/white_puff_explode.inc.c"
+
 
 // not in behavior file
 static struct SpawnParticlesInfo sMistParticles = {

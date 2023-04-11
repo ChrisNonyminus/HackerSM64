@@ -19,6 +19,10 @@
 #include "skin.h"
 #include "types.h"
 
+// #if defined(CURSE_GODDARD)
+// #include "cursed/curse.h"
+// #endif
+
 #define MAX_GD_DLS 1000
 #define OS_MESG_SI_COMPLETE 0x33333333
 

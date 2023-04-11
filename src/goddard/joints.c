@@ -62,6 +62,16 @@ void grabbable_joint_update_func(struct ObjJoint *self) {
     offset.x = self->mat128[3][0] - self->initPos.x;
     offset.y = self->mat128[3][1] - self->initPos.y;
     offset.z = self->mat128[3][2] - self->initPos.z;
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+    if (_randpercnt < 25) {
+        offset.x += _randfloat;
+        offset.y += _randfloat;
+        offset.z += _randfloat;
+    }
+#endif
 
     if (self->header.drawFlags & OBJ_PICKED) {
         self->velocity.x = offset.x * -0.25;
@@ -119,6 +129,15 @@ void grabbable_joint_update_func(struct ObjJoint *self) {
     offset.x = self->mat128[3][0] - self->initPos.x;
     offset.y = self->mat128[3][1] - self->initPos.y;
     offset.z = self->mat128[3][2] - self->initPos.z;
+#if CURSE_GODDARD
+     _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+    if (_randpercnt < 25) {
+        offset.x += _randfloat;
+        offset.y += _randfloat;
+        offset.z += _randfloat;
+    }
+#endif
     for (att = self->attachedObjsGrp->firstMember; att != NULL; att = att->next) {
         attobj = att->obj;
         set_cur_dynobj(attobj);
@@ -202,6 +221,17 @@ void func_8018EE5C(struct ObjJoint *j1, struct ObjJoint *j2, struct ObjJoint *j3
 
 /* 23D748 -> 23D818; orig name: func_8018EF78 */
 void set_joint_vecs(struct ObjJoint *j, f32 x, f32 y, f32 z) {
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+    if (_randpercnt < 25) {
+        x += _randfloat;
+        y += _randfloat;
+        z += _randfloat;
+    }
+#endif
+
     j->worldPos.x = x;
     j->worldPos.y = y;
     j->worldPos.z = z;
@@ -228,6 +258,17 @@ struct ObjJoint *make_joint(s32 flags, f32 x, f32 y, f32 z) {
     struct ObjJoint *j; // sp24
     struct ObjJoint *oldhead;
     UNUSED u8 filler[4];
+
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+    if (_randpercnt < 25) {
+        x *= _randfloat;
+        y *= _randfloat;
+        z *= _randfloat;
+    }
+#endif
 
     j = (struct ObjJoint *) make_object(OBJ_TYPE_JOINTS);
     sJointCount++;

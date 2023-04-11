@@ -1,6 +1,8 @@
 //! Copt inlining for US/JP. Here be dragons
 // This version is basically identical to EU
 
+
+
 #include <ultra64.h>
 #include <macros.h>
 
@@ -59,6 +61,53 @@
 #if COPT
 #define GET_INSTRUMENT(seqChannel, instId, _instOut, _adsr, dst, l) \
     dst = get_instrument(seqChannel, instId, _instOut, _adsr);
+#elif defined(CURSE_AUDIO)
+// make instrument loading cursed and random
+#define GET_INSTRUMENT(seqChannel, instId, _instOut, _adsr, dst, l) \
+{ \
+struct AdsrSettings *adsr = _adsr; \
+struct Instrument **instOut = _instOut;\
+    u8 _instId = instId; \
+    struct Instrument *inst; \
+    u16 _rand = random_u16(); \
+        /* TODO: randomness */ \ 
+    UNUSED u32 pad; \
+        /* copt inlines instId here  */ \
+    if (instId >= gCtlEntries[(*seqChannel).bankId].numInstruments) { \
+        _instId = gCtlEntries[(*seqChannel).bankId].numInstruments; \
+        if (_instId == 0) { \
+            dst = 0; \
+            goto ret ## l; \
+        } \
+        _instId--; \
+    } \
+    inst = gCtlEntries[(*seqChannel).bankId].instruments[_instId]; \
+    if (inst == NULL) { \
+        while (_instId != 0xff) { \
+            inst = gCtlEntries[(*seqChannel).bankId].instruments[_instId]; \
+            if (inst != NULL) { \
+                goto gi ## l; \
+            } \
+            _instId--; \
+        } \
+        gi ## l:; \
+    } \
+    if (((uintptr_t) gBankLoadedPool.persistent.pool.start <= (uintptr_t) inst \
+         && (uintptr_t) inst <= (uintptr_t)(gBankLoadedPool.persistent.pool.start \
+                                          + gBankLoadedPool.persistent.pool.size)) \
+        || ((uintptr_t) gBankLoadedPool.temporary.pool.start <= (uintptr_t) inst \
+            && (uintptr_t) inst <= (uintptr_t)(gBankLoadedPool.temporary.pool.start \
+                                             + gBankLoadedPool.temporary.pool.size))) { \
+        (*adsr).envelope = (*inst).envelope; \
+        (*adsr).releaseRate = (*inst).releaseRate; \
+        *instOut = inst; \
+        _instId++; \
+        goto ret ## l; \
+    } \
+    gAudioErrorFlags = _instId + 0x20000; \
+    *instOut = NULL; \
+    ret ## l: ; \
+}
 #else
 #define GET_INSTRUMENT(seqChannel, instId, _instOut, _adsr, dst, l) \
 { \
@@ -168,6 +217,16 @@ void seq_channel_layer_process_script(struct SequenceChannelLayer *layer) {
         if (cmd <= 0xc0) {
             break;
         }
+
+        #ifdef CURSE_AUDIO
+        // randomly modify the state (note key, pitch, velocity, instrument id, etc.)
+        u8 possible_cmds[] = { 0xff, 0xfc, 0xf8, 0xf9, 0xfa, 0xfb, 0xc1, 0xca, 0xc2, 0xc5, 0xc4, 0xc9, 0xc8, 0xC6, 0xD0, 0xE0};
+        if (1) {
+            if (random_u16() % 100 < 25) {
+                cmd = possible_cmds[random_u16() % sizeof(possible_cmds)];
+            }
+        }
+        #endif
 
         switch (cmd) {
             case 0xff: // layer_end; function return or end of script

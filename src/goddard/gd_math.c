@@ -348,7 +348,6 @@ s32 gd_normalize_vec3f(struct GdVec3f *vec) {
 
     return TRUE;
 }
-
 /**
  * Stores the cross product of 'a' x 'b' in 'dst'.
  */

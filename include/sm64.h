@@ -3,6 +3,8 @@
 
 // Global header for Super Mario 64
 
+#include "cursed/config.h"
+
 #include "types.h"
 #include "config.h"
 #include "object_fields.h"
@@ -16,7 +18,7 @@
 #include "segments.h"
 
 // Crash handler enhancement
-#ifdef CRASH_SCREEN_INCLUDED
+#if 1
 #define DEBUG_ASSERT(exp) do { if (!(exp)) _n64_assert(__FILE__, __LINE__, #exp, 1); } while (0)
 #else
 #define DEBUG_ASSERT(exp)

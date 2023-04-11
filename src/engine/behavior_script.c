@@ -1,5 +1,9 @@
 #include <ultra64.h>
 
+#if defined(CURSE_BEHAVIORSCRIPT) && CURSE_BEHAVIORSCRIPT == 1
+#include "cursed/curse.h"
+#endif
+
 #include "sm64.h"
 #include "behavior_data.h"
 #include "behavior_script.h"

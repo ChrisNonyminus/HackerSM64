@@ -166,6 +166,7 @@ struct GdObj *proc_dynlist(struct DynList *dylist) {
     }
 
     while (dylist->cmd != 58) {
+
         switch (dylist->cmd) {
             case 43:
                 d_set_name_suffix(Dyn1AsStr(dylist));
@@ -2156,6 +2157,16 @@ void d_make_vertex(struct GdVec3f *pos) {
  */
 void d_set_scale(f32 x, f32 y, f32 z) {
     struct GdObj *initDynobj;
+// #if CURSE_GODDARD
+//     u16 _randpercnt = random_u16() % 100;
+//     float _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+//     if (_randpercnt < 10) {
+//         x += _randfloat;
+//         y += _randfloat;
+//         z += _randfloat;
+//     }
+// #endif
 
     if (sDynListCurObj == NULL) {
         fatal_printf("proc_dynlist(): No current object");
@@ -2205,6 +2216,17 @@ void d_set_rotation(f32 x, f32 y, f32 z) {
     struct GdObj *dynobj; // sp2C
     UNUSED u8 filler[4];
 
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+    if (_randpercnt < 10) {
+        x += _randfloat;
+        y += _randfloat;
+        z += _randfloat;
+    }
+#endif
+
     if (sDynListCurObj == NULL) {
         fatal_printf("proc_dynlist(): No current object");
     }
@@ -2235,6 +2257,18 @@ void d_center_of_gravity(f32 x, f32 y, f32 z) {
         fatal_printf("proc_dynlist(): No current object");
     }
 
+
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+    if (_randpercnt < 10) {
+        x += _randfloat;
+        y += _randfloat;
+        z += _randfloat;
+    }
+#endif
+
     switch (sDynListCurObj->type) {
         case OBJ_TYPE_NETS:
             ((struct ObjNet *) sDynListCurObj)->centerOfGravity.x = x;
@@ -2254,6 +2288,17 @@ void d_set_shape_offset(f32 x, f32 y, f32 z) {
     if (sDynListCurObj == NULL) {
         fatal_printf("proc_dynlist(): No current object");
     }
+
+#if CURSE_GODDARD
+    u16 _randpercnt = random_u16() % 100;
+    float _randfloat = ((random_u16() % 10000) / 100.0f) * random_sign();
+
+    if (_randpercnt < 10) {
+        x += _randfloat;
+        y += _randfloat;
+        z += _randfloat;
+    }
+#endif
 
     switch (sDynListCurObj->type) {
         case OBJ_TYPE_JOINTS:

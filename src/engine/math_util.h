@@ -179,6 +179,7 @@ extern f32 gSineTable[];
     (dstV)[2] = vec3_dot((mtx)[2], (srcV));                 \
 }
 
+#if !defined(CURSE_MATHUTIL)
 #define vec2_set(dst, x, y) {           \
     (dst)[0] = (x);                     \
     (dst)[1] = (y);                     \
@@ -191,7 +192,55 @@ extern f32 gSineTable[];
     vec3_set((dst), (x), (y), (z));     \
     (dst)[3] = (w);                     \
 }
+#else
+#define vec2_set(dst, x, y) {           \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (x) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (y) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = (x);                     \
+    (dst)[1] = (y);                     \
+    }\
+\
+}
+#define vec3_set(dst, x, y, z) {        \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (x) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (y) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = (z) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    vec2_set((dst), (x), (y));          \
+    (dst)[2] = (z);                     \
+    }\
+\
+}
+#define vec4_set(dst, x, y, z, w) {     \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (x) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (y) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = (z) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[3] = (w) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    vec3_set((dst), (x), (y), (z));     \
+    (dst)[3] = (w);                     \
+    }\
+\
+}
+#endif
 
+#if !defined(CURSE_MATHUTIL)
 #define vec2_copy(dst, src) {           \
     (dst)[0] = (src)[0];                \
     (dst)[1] = (src)[1];                \
@@ -204,7 +253,55 @@ extern f32 gSineTable[];
     vec3_copy((dst), (src));            \
     (dst)[3] = (src)[3];                \
 }
+#else
+#define vec2_copy(dst, src) {           \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (src)[1] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = (src)[0];                \
+    (dst)[1] = (src)[1];                \
+    }\
+\
+}
+#define vec3_copy(dst, src) {           \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = (src)[2] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    vec2_copy((dst), (src));            \
+    (dst)[2] = (src)[2];                \
+    }\
+\
+}
+#define vec4_copy(dst, src) {           \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = (src)[2] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[3] = (src)[3] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    vec3_copy((dst), (src));            \
+    (dst)[3] = (src)[3];                \
+    }\
+\
+}
+#endif
 
+#if !defined(CURSE_MATHUTIL)
 #define vec3_copy_y_off(dst, src, y) {  \
     (dst)[0] =  (src)[0];               \
     (dst)[1] = ((src)[1] + (y));        \
@@ -223,7 +320,54 @@ extern f32 gSineTable[];
     vec3_copy_roundf((dst), (src));     \
     (dst)[3] = roundf((src)[3]);        \
 }
+#else
+#define vec3_copy_y_off(dst, src, y) {  \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] =  (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = ((src)[1] + (y)) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] =  (src)[2] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] =  (src)[0];               \
+    (dst)[1] = ((src)[1] + (y));        \
+    (dst)[2] =  (src)[2];               \
+    }\
+\
+}
+#define vec2_copy_roundf(dst, src) {    \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = roundf((src)[0] + ((_rand / 100.0f) * random_sign())); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = roundf((src)[1] + ((_rand / 100.0f) * random_sign())); \
+    } else {\
+    (dst)[0] = roundf((src)[0]);        \
+    (dst)[1] = roundf((src)[1]);        \
+    }\
+\
+}
+#define vec3_copy_roundf(dst, src) {    \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = roundf((src)[0] + ((_rand / 100.0f) * random_sign())); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = roundf((src)[1] + ((_rand / 100.0f) * random_sign())); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = roundf((src)[2] + ((_rand / 100.0f) * random_sign())); \
+    } else {\
+    vec2_copy_roundf((dst), (src));     \
+    (dst)[2] = roundf((src)[2]);        \
+    }\
+\
+}
+#endif
 
+#if !defined(CURSE_MATHUTIL)
 #define vec2_copy_inverse(dst, src) {   \
     (dst)[0] = (src)[1];                \
     (dst)[1] = (src)[0];                \
@@ -239,7 +383,58 @@ extern f32 gSineTable[];
     (dst)[2] = (src)[1];                \
     (dst)[3] = (src)[0];                \
 }
+#else
+#define vec2_copy_inverse(dst, src) {   \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = (src)[1];                \
+    (dst)[1] = (src)[0];                \
+    }\
+\
+}
+#define vec3_copy_inverse(dst, src) {   \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (src)[2] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = (src)[2];                \
+    (dst)[1] = (src)[1];                \
+    (dst)[2] = (src)[0];                \
+    }\
+\
+}
+#define vec4_copy_inverse(dst, src) {   \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (src)[3] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (src)[2] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = (src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[3] = (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = (src)[3];                \
+    (dst)[1] = (src)[2];                \
+    (dst)[2] = (src)[1];                \
+    (dst)[3] = (src)[0];                \
+    }\
+\
+}
+#endif
 
+#if !defined(CURSE_MATHUTIL)
 #define vec3_copy_offset_m1(dst, src) { \
     (dst)[0] = (src)[1];                \
     (dst)[1] = (src)[2];                \
@@ -258,7 +453,74 @@ extern f32 gSineTable[];
     vec3_copy_negative((dst), (src));   \
     (dst)[3] = -(src)[3];               \
 }
+#else
+#define vec3_copy_offset_m1(dst, src) { \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = (src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = (src)[2] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = (src)[0] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = (src)[1];                \
+    (dst)[1] = (src)[2];                \
+    (dst)[2] = (src)[0];                \
+    }\
+\
+}
+#define vec2_copy_negative(dst, src) {  \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = -(src)[0] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = -(src)[1] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = -(src)[0];               \
+    (dst)[1] = -(src)[1];               \
+    }\
+\
+}
+#define vec3_copy_negative(dst, src) {  \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = -(src)[0] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = -(src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = -(src)[2] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = -(src)[0];               \
+    (dst)[1] = -(src)[1];               \
+    (dst)[2] = -(src)[2];               \
+    }\
+\
+}
+#define vec4_copy_negative(dst, src) {  \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = -(src)[0] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = -(src)[1] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = -(src)[2] + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[3] = -(src)[3] + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = -(src)[0];               \
+    (dst)[1] = -(src)[1];               \
+    (dst)[2] = -(src)[2];               \
+    (dst)[3] = -(src)[3];               \
+    }\
+\
+}
+#endif
 
+#if !defined(CURSE_MATHUTIL)
 #define vec2_sum(dst, src1, src2) {     \
     (dst)[0] = ((src1)[0] + (src2)[0]); \
     (dst)[1] = ((src1)[1] + (src2)[1]); \
@@ -271,11 +533,62 @@ extern f32 gSineTable[];
     vec3_sum((dst), (src1), (src2));    \
     (dst)[3] = ((src1)[3] + (src2)[3]); \
 }
+#else
+#define vec2_sum(dst, src1, src2) {     \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = ((src1)[0] + (src2)[0]) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = ((src1)[1] + (src2)[1]) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = ((src1)[0] + (src2)[0]); \
+    (dst)[1] = ((src1)[1] + (src2)[1]); \
+    }\
+\
+}
+#define vec3_sum(dst, src1, src2) {     \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = ((src1)[0] + (src2)[0]) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = ((src1)[1] + (src2)[1]) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = ((src1)[2] + (src2)[2]) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = ((src1)[0] + (src2)[0]); \
+    (dst)[1] = ((src1)[1] + (src2)[1]); \
+    (dst)[2] = ((src1)[2] + (src2)[2]); \
+    }\
+\
+}
+#define vec4_sum(dst, src1, src2) {     \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = ((src1)[0] + (src2)[0]) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = ((src1)[1] + (src2)[1]) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = ((src1)[2] + (src2)[2]) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[3] = ((src1)[3] + (src2)[3]) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = ((src1)[0] + (src2)[0]); \
+    (dst)[1] = ((src1)[1] + (src2)[1]); \
+    (dst)[2] = ((src1)[2] + (src2)[2]); \
+    (dst)[3] = ((src1)[3] + (src2)[3]); \
+    }\
+\
+}
+#endif
 
 #define vec2_add(dst, src) vec2_sum((dst), (dst), (src))
 #define vec3_add(dst, src) vec3_sum((dst), (dst), (src))
 #define vec4_add(dst, src) vec4_sum((dst), (dst), (src))
 
+#if !defined(CURSE_MATHUTIL)
 #define vec2_sum_val(dst, src, x) {     \
     (dst)[0] = ((src)[0] + (x));        \
     (dst)[1] = ((src)[1] + (x));        \
@@ -288,6 +601,56 @@ extern f32 gSineTable[];
     vec3_sum_val((dst), (src), (x));    \
     (dst)[3] = ((src)[2] + (x));        \
 }
+#else
+#define vec2_sum_val(dst, src, x) {     \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = ((src)[0] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = ((src)[1] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = ((src)[0] + (x));        \
+    (dst)[1] = ((src)[1] + (x));        \
+    }\
+\
+}
+#define vec3_sum_val(dst, src, x) {     \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = ((src)[0] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = ((src)[1] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = ((src)[2] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = ((src)[0] + (x));        \
+    (dst)[1] = ((src)[1] + (x));        \
+    (dst)[2] = ((src)[2] + (x));        \
+    }\
+\
+}
+#define vec4_sum_val(dst, src, x) {     \
+    u16 _rand = random_u16() % 100;       \
+    if (_rand < 1) {\
+    _rand = random_u16() % 100;       \
+    (dst)[0] = ((src)[0] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[1] = ((src)[1] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[2] = ((src)[2] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    _rand = random_u16() % 100;       \
+    (dst)[3] = ((src)[3] + (x)) + ((_rand / 100.0f) * random_sign()); \
+    } else {\
+    (dst)[0] = ((src)[0] + (x));        \
+    (dst)[1] = ((src)[1] + (x));        \
+    (dst)[2] = ((src)[2] + (x));        \
+    (dst)[3] = ((src)[3] + (x));        \
+    }\
+\
+}
+#endif
 
 #define vec2_add_val(dst, x) vec2_sum_val((dst), (dst), (x))
 #define vec3_add_val(dst, x) vec3_sum_val((dst), (dst), (x))
